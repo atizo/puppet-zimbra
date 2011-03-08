@@ -11,6 +11,6 @@
 #
 
 class zimbra {
-  include package::gmp
-  include package::sysstat
+  include packages::gmp
+  include packages::sysstat
 }
