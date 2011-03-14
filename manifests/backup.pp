@@ -2,6 +2,7 @@ class zimbra::backup(
   hour => 23,
   minute => 00
 ) {
+  include zimbra
   file{'/usr/local/sbin/zimbra-backup.sh':
     source => "puppet://$server/modules/zimbra/",
     owner => root, group => root, mode => 0555,
