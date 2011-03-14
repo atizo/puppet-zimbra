@@ -1,6 +1,6 @@
 class zimbra::backup(
-  hour => 23,
-  minute => 00
+  $hour = 23,
+  $minute = 00
 ) {
   include zimbra
   file{'/usr/local/sbin/zimbra-backup.sh':
