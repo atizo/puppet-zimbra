@@ -4,7 +4,7 @@ class zimbra::backup(
 ) {
   include zimbra
   file{'/usr/local/sbin/zimbra-backup.sh':
-    source => "puppet://$server/modules/zimbra/",
+    source => "puppet://$server/modules/zimbra/zimbra-backup.sh",
     owner => root, group => root, mode => 0555,
   }
   cron::crond{'zimbra-backup':
