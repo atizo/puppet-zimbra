@@ -1,17 +1,13 @@
 #!/bin/bash
 
-ZIMBRAROOT=/opt/zimbra
-BACKUPDIR=/opt/zimbra-backup
- 
-mkdir -p $BASEDIR/{ldap,accounts}
-chmod 0700 $BASEDIR
-chown -R zimbra:zimbra $BASEDIR
+ZIMBRAROOT=/opt/zimbra/
+BACKUPDIR=/opt/zimbra-backup/
+RSYNC_CMD="rsync -aSH --delete $ZIMBRAROOT $BACKUPDIR"
 
-# backup ldap
-su zimbra -c "/opt/zimbra/libexec/zmslapcat $BACKUPDIR/ldap"
+# online rsync
+$RSYNC_CMD
  
-# backup all accounts
-for account in `su zimbra -c "$ZIMBRAROOT/bin/zmprov -l gaa | sort -R"`; do
-  sleep 5;
-  su zimbra -c "$ZIMBRAROOT/bin/zmmailbox -z -m $account getRestURL '//?fmt=tgz' > $BACKUPDIR/accounts/$account.tgz"
-done
+# offline rsync
+/etc/init.d/zimbra stop 2> /dev/null
+$RSYNC_CMD
+/etc/init.d/zimbra start 2> /dev/null
